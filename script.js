@@ -5,9 +5,19 @@ let itemContainer = document.querySelector(".jsItemContainer");
 let alertDisplay = document.querySelector(".jsAlert");
 let clearItemsBtn = document.querySelector(".jsClearItems");
 
+function getLocalStorage() {
+  itemContainer.innerHTML = localStorage.getItem("list") || "";
+  removeItem();
+  markItem();
+  showOrHideClearItems();
+}
+
+getLocalStorage();
+
 // When "add" button is clicked -
 add.addEventListener("click", () => {
   addItem();
+  
 
   removeItem();
 
@@ -52,6 +62,7 @@ function addItem() {
     // Display message
     alertMessage("Please Enter Item", "alert-red");
   }
+  saveToLocalStorage();
 }
 
 // X button removes relative item
@@ -64,6 +75,7 @@ function removeItem() {
       showOrHideClearItems();
     });
   });
+  saveToLocalStorage();
 }
 
 // Check and uncheck an item to mark completion
@@ -83,6 +95,7 @@ function markItem() {
         item.parentElement.firstChild.classList.remove("item-checked");
         isToggled = false;
       }
+      saveToLocalStorage();
     });
   });
 }
@@ -97,20 +110,21 @@ function alertMessage(text, style) {
   }, 1000);
 }
 
-// Shows or hides clear items button depending on list content
+// Clear items button display and functionality
 function showOrHideClearItems() {
-  if (itemContainer.firstElementChild) {
-    clearItemsBtn.classList.remove("hidden");
-  } else {
-    clearItemsBtn.classList.add("hidden");
-  }
+  itemContainer.firstElementChild
+    ? clearItemsBtn.classList.remove("hidden")
+    : clearItemsBtn.classList.add("hidden");
+  clearItemsBtn.addEventListener("click", () => {
+    while (itemContainer.firstChild) {
+      itemContainer.firstChild.remove();
+    }
+    showOrHideClearItems();
+    alertMessage("List Cleared", "alert-neutral");
+    saveToLocalStorage();
+  });
 }
 
-// Clears list
-clearItemsBtn.addEventListener("click", () => {
-  while (itemContainer.firstChild) {
-    itemContainer.firstChild.remove();
-  }
-  showOrHideClearItems();
-  alertMessage("List Cleared", "alert-neutral");
-});
+function saveToLocalStorage() {
+  localStorage.setItem("list", itemContainer.innerHTML);
+}
