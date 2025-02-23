@@ -44,11 +44,12 @@ function addItem() {
     itemContainer.appendChild(div);
     // Input returns to empty
     input.value = "";
-    // Alert
+    // Display message
     alertMessage("Item Added", "alert-green");
     // Show clear items button
     showOrHideClearItems();
   } else {
+    // Display message
     alertMessage("Please Enter Item", "alert-red");
   }
 }
@@ -59,7 +60,7 @@ function removeItem() {
   deleteBtns.forEach((btn) => {
     btn.addEventListener("click", () => {
       btn.parentElement.remove();
-      alertMessage("Item Removed", "alert-red");
+      alertMessage("Item Removed", "alert-neutral");
       showOrHideClearItems();
     });
   });
@@ -76,13 +77,11 @@ function markItem() {
         item.parentElement.firstChild.firstChild.classList.remove("hidden");
         item.parentElement.firstChild.classList.add("item-checked");
         isToggled = true;
-        alertMessage("Item Checked", "alert-green");
       } else {
         item.classList.remove("strikethrough");
         item.parentElement.firstChild.firstChild.classList.add("hidden");
         item.parentElement.firstChild.classList.remove("item-checked");
         isToggled = false;
-        alertMessage("item Unchecked", "alert-red");
       }
     });
   });
@@ -113,4 +112,5 @@ clearItemsBtn.addEventListener("click", () => {
     itemContainer.firstChild.remove();
   }
   showOrHideClearItems();
+  alertMessage("List Cleared", "alert-neutral");
 });
