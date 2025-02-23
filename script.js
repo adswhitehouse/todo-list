@@ -3,6 +3,7 @@ let input = document.querySelector(".jsInput");
 let add = document.querySelector(".jsAdd");
 let itemContainer = document.querySelector(".jsItemContainer");
 let alertDisplay = document.querySelector(".jsAlert");
+let clearItemsBtn = document.querySelector(".jsClearItems");
 
 // When "add" button is clicked -
 add.addEventListener("click", () => {
@@ -45,6 +46,8 @@ function addItem() {
     input.value = "";
     // Alert
     alertMessage("Item Added", "alert-green");
+    // Show clear items button
+    showOrHideClearItems();
   } else {
     alertMessage("Please Enter Item", "alert-red");
   }
@@ -57,6 +60,7 @@ function removeItem() {
     btn.addEventListener("click", () => {
       btn.parentElement.remove();
       alertMessage("Item Removed", "alert-red");
+      showOrHideClearItems();
     });
   });
 }
@@ -84,24 +88,29 @@ function markItem() {
   });
 }
 
-// Timeout functionality for displaying message
-let timeoutActive = false;
-let timeout;
+// Alert message upon list interaction
 function alertMessage(text, style) {
-  function timeoutFunc() {
-    alertDisplay.textContent = text;
-    alertDisplay.classList.add(`${style}`);
-    timeoutActive = true;
-    timeout = setTimeout(() => {
-      alertDisplay.classList.remove(`${style}`);
-      alertDisplay.textContent = "";
-      timeoutActive = false;
-    }, 1500);
-  }
-  if (!timeoutActive) {
-    timeoutFunc()
+  alertDisplay.textContent = text;
+  alertDisplay.classList.add(`${style}`);
+  timeout = setTimeout(() => {
+    alertDisplay.classList.remove(`${style}`);
+    alertDisplay.textContent = "";
+  }, 1000);
+}
+
+// Shows or hides clear items button depending on list content
+function showOrHideClearItems() {
+  if (itemContainer.firstElementChild) {
+    clearItemsBtn.classList.remove("hidden");
   } else {
-    clearTimeout(timeout);
-    timeoutFunc()
+    clearItemsBtn.classList.add("hidden");
   }
 }
+
+// Clears list
+clearItemsBtn.addEventListener("click", () => {
+  while (itemContainer.firstChild) {
+    itemContainer.firstChild.remove();
+  }
+  showOrHideClearItems();
+});
