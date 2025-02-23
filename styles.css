@@ -86,11 +86,11 @@ body {
 /* Input */
 .input-section {
   display: flex;
-  height: 2.5rem;
   margin-block: 1rem;
 }
 
 .input-section input {
+  height: 2.5rem;
   flex-grow: 1;
   border-radius: 5rem;
   border: none;
@@ -121,26 +121,42 @@ body {
 
 .item {
   display: flex;
+  align-items: center;
+  padding: 0.25rem;
+  transition: 0.25s;
+  border-radius: 5rem;
+}
+
+.item:hover {
+  background-color: #2b4162;
+  color: #ebedee;
 }
 
 .button-check {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   background-color: transparent;
   border: 2px solid #ebedee;
   margin-right: 0.5rem;
+  flex-shrink: 0;
 }
 
 .button-x {
-  width: 1.5rem;
-  height: 1.5rem;
+  width: 2rem;
+  height: 2rem;
   border-radius: 50%;
   background-color: transparent;
   border: none;
   margin-left: auto;
   cursor: pointer;
   margin-left: 0.5rem;
+  flex-shrink: 0;
+  transition: 0.25s;
+}
+
+.button-x:hover {
+  background-color: #ebedee;
 }
 
 .item-text {
@@ -155,6 +171,12 @@ body {
 
 .item-checked {
   background-color: #ff643b;
+  color: #ebedee;
+  border: 2px solid #ff643b;
+}
+
+.hidden {
+  opacity: 0;
 }
 
 /* Media Query */
